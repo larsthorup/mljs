@@ -1,4 +1,4 @@
-function areElementsEqual (a, b) {
+function areElementsEqual(a, b) {
   if (a.length !== b.length) {
     return false;
   }
@@ -10,11 +10,11 @@ function areElementsEqual (a, b) {
   return true;
 }
 
-function firstElement (a) {
+function firstElement(a) {
   return a[0];
 }
 
-function lastElement (a) {
+function lastElement(a) {
   return a[a.length - 1];
 }
 

@@ -1,11 +1,11 @@
-const KMeans = require('./kmeans');
-const KMeansAutoSolver = require('./kmeans-autosolver');
+const KMeans = require("./kmeans");
+const KMeansAutoSolver = require("./kmeans-autosolver");
 const {
   points_2d_3groups,
   points_2d_few,
   points_2d_nok,
   points_3d_3groups
-} = require('./data');
+} = require("./data");
 
 const trialCount = 10;
 
@@ -21,6 +21,6 @@ const trialCount = 10;
 // }
 
 const pointList = points_2d_nok;
-const autoSolver = new KMeansAutoSolver({ kmin: 1, kMax: 30, pointList});
+const autoSolver = new KMeansAutoSolver({ kmin: 1, kMax: 30, pointList });
 const solution = autoSolver.solve();
 console.log(solution);

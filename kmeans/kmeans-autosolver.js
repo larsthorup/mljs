@@ -1,7 +1,7 @@
-const KMeans = require('./kmeans');
+const KMeans = require("./kmeans");
 
 class KMeansAutoSolver {
-  constructor ({ kMin = 1, kMax = 5, trialLimit = 5, pointList } = {}) {
+  constructor({ kMin = 1, kMax = 5, trialLimit = 5, pointList } = {}) {
     this.kMin = kMin;
     this.kMax = kMax;
     this.trialLimit = trialLimit;
@@ -9,7 +9,7 @@ class KMeansAutoSolver {
     this.reset();
   }
 
-  reset () {
+  reset() {
     this.bestSolution = null;
     this.log = [];
   }
@@ -21,7 +21,10 @@ class KMeansAutoSolver {
         const solution = solver.solve({ maxIterationCount });
         solution.trial = trial;
         this.log.push(solution);
-        if (this.bestSolution === null || solution.error < this.bestSolution.error) {
+        if (
+          this.bestSolution === null ||
+          solution.error < this.bestSolution.error
+        ) {
           this.bestSolution = solution;
         }
       }

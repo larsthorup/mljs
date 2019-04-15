@@ -1,21 +1,11 @@
-const {
-  areElementsEqual,
-  firstElement,
-  lastElement
-} = require('../array');
+const { areElementsEqual, firstElement, lastElement } = require("../array");
 
-const {
-  mean,
-  randomBetween
-} = require('../math');
+const { mean, randomBetween } = require("../math");
 
-const {
-  dimensionality,
-  distance
-} = require('../geometry');
+const { dimensionality, distance } = require("../geometry");
 
 class KMeans {
-  constructor ({k, pointList}) {
+  constructor({ k, pointList }) {
     this.k = k;
     this.pointList = pointList;
     this.pointCount = pointList.length;
@@ -23,7 +13,7 @@ class KMeans {
     this.reset();
   }
 
-  reset () {
+  reset() {
     this.error = null;
     this.iterationCount = 0;
     this.iterationLogList = [];
@@ -31,13 +21,13 @@ class KMeans {
     this.assignment = []; // assigned centroid index by point index
   }
 
-  initRandomCentroids () {
-    const rangeByDimension = this.calculateRangeByDimension()
+  initRandomCentroids() {
+    const rangeByDimension = this.calculateRangeByDimension();
     const centroidList = [];
     for (let i = 0; i < this.k; ++i) {
       const point = [];
       for (let d = 0; d < this.dimensionality; ++d) {
-        const {min, max} = rangeByDimension[d];
+        const { min, max } = rangeByDimension[d];
         point[d] = randomBetween(min, max);
       }
       centroidList.push(point);
@@ -45,7 +35,7 @@ class KMeans {
     return centroidList;
   }
 
-  calculateRangeByDimension () {
+  calculateRangeByDimension() {
     const rangeByDimension = [];
     for (let d = 0; d < this.dimensionality; ++d) {
       rangeByDimension[d] = this.getRangeForDimension(d);
@@ -53,19 +43,25 @@ class KMeans {
     return rangeByDimension;
   }
 
-  getRangeForDimension (d) {
+  getRangeForDimension(d) {
     const valueList = this.pointList.map(point => point[d]);
     return {
       min: Math.min.apply(null, valueList),
       max: Math.max.apply(null, valueList)
-    }
+    };
   }
 
   solve({ maxIterationCount = 1000 } = {}) {
     while (this.iterationCount < maxIterationCount) {
       const previousAssignment = this.assignment;
-      this.assignment = this.calculateAssignment(this.pointList, this.centroidList);
-      const isAssignmentUnchanged = this.isAssignmentUnchanged(previousAssignment, this.assignment);
+      this.assignment = this.calculateAssignment(
+        this.pointList,
+        this.centroidList
+      );
+      const isAssignmentUnchanged = this.isAssignmentUnchanged(
+        previousAssignment,
+        this.assignment
+      );
       this.centroidList = this.calculateCentroidPosition(this.assignment);
       this.error = this.calculateError(this.centroidList, this.assignment);
       this.iterationLogList[this.iterationCount] = {
@@ -83,7 +79,7 @@ class KMeans {
     return lastElement(this.iterationLogList);
   }
 
-  calculateAssignment (pointList, centroidList) {
+  calculateAssignment(pointList, centroidList) {
     const assignment = [];
     for (let i = 0; i < this.pointCount; ++i) {
       assignment[i] = this.calculatePointAssignment(pointList[i], centroidList);
@@ -123,7 +119,7 @@ class KMeans {
     return centroidList;
   }
 
-  getAssignedPointList (assignment, centroidIndex) {
+  getAssignedPointList(assignment, centroidIndex) {
     const assignedPointList = [];
     for (let i = 0; i < this.pointCount; ++i) {
       if (assignment[i] === centroidIndex) {
@@ -133,7 +129,7 @@ class KMeans {
     return assignedPointList;
   }
 
-  calculateError (centroidList, assignment) {
+  calculateError(centroidList, assignment) {
     let sumDistanceSquared = 0;
     for (let i = 0; i < this.pointCount; ++i) {
       const centroidIndex = assignment[i];
