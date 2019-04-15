@@ -69,6 +69,7 @@ class KMeans {
       this.centroidList = this.calculateCentroidPosition(this.assignment);
       this.error = this.calculateError(this.centroidList, this.assignment);
       this.iterationLogList[this.iterationCount] = {
+        k: this.k,
         centroidList: this.centroidList,
         iteration: this.iterationCount,
         error: this.error,
@@ -138,7 +139,7 @@ class KMeans {
       const centroidIndex = assignment[i];
       const centroid = centroidList[centroidIndex];
       const point = this.pointList[i];
-      const thisDistance = distance(point, centroid);
+      const thisDistance = distance(point, centroid) + this.k; // Note: penalize larger k when auto solving for k
       sumDistanceSquared += thisDistance * thisDistance;
     }
     const error = Math.sqrt(sumDistanceSquared / this.pointCount);
